@@ -4,8 +4,9 @@
 
 {% block content %}
     <div class="features">
-        <h1>{{ title }}</h1>
-        <p>bla bla bla blaaaaa blaa bla bakk</p>
-        <button class="btn btn-warning">На страницу про нас</button>
+        <h1>LenNews – Ваш источник новостей</h1>
+        <p>Актуальные новости, аналитика и события в одном месте</p>
+        <a href="{% url 'news_home' %}" class="btn btn-warning">Читать новости</a>
+        <a href="{% url 'user:register' %}" class="btn btn-warning">Присоединиться</a>
     </div> 
 {% endblock content %}

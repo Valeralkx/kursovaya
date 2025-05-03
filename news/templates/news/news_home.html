@@ -1,6 +1,6 @@
 {% extends 'main/base.html' %}
 
-{% block title %}Новости на сайте{% endblock  %}
+{% block title %}Новости на сайте{% endblock %}
 
 {% block content %}
     <div class="features">
@@ -14,7 +14,14 @@
                 </div>
             {% endfor %}
         {% else %}
-                <p>Записей пока нет :3</p>
+            <p>Записей пока нет :3</p>
         {% endif %}
-    </div> 
-{% endblock content %}
+
+        <!-- Добавьте проверку авторизации -->
+        {% if user.is_authenticated %}
+            <a href="{% url 'create' %}" class="btn btn-info">+ Добавить запись</a>
+        {% else %}
+            <p>Чтобы добавить запись, <a href="{% url 'user:login' %}">войдите</a> или <a href="{% url 'user:register' %}">зарегистрируйтесь</a>.</p>
+        {% endif %}
+    </div>
+{% endblock %}

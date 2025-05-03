@@ -73,6 +73,13 @@
             margin-left: 30%;
             width: 500px;
             margin-top: 50px;
+        } 
+        .principles{
+            color: #fff;
+        }
+        .principles ul{list-style: none}
+        .contacts{
+            color: #fff;
         }
     </style>
     <aside>
@@ -90,8 +97,9 @@
             <a href="{% url "home" %}"><li>Главная</li></a>
             <a href="{% url "about" %}"><li>Про нас</li></a>
             <a href="{% url "news_home" %}"><li>Новости</li></a>
-            <a href=""><li>Контакты</li></a>
-            <a href="{% url "create" %}"><li><button class="btn btn-info">+ Добавить запись</button></li></a>
+            {% if user.is_authenticated %}
+                <a href="{% url "create" %}"><li><button class="btn btn-info">+ Добавить запись</button></li></a>
+            {% endif %}
         </ul>
     </aside>
     <main>

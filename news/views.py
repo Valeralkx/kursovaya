@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
 from .models import Artiles
 from .forms import ArtilesForm
-from django.views.generic import DetailView, UpdateView, DeleteView
+from django.views.generic import DetailView, UpdateView, DeleteView,  CreateView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def news_home(request):
@@ -28,6 +30,7 @@ class NewsDeleteView(DeleteView):
     template_name = 'news/news-delete.html'
 
 
+@login_required
 def create(request):
     error = ''
     if request.method == 'POST':
@@ -46,3 +49,10 @@ def create(request):
     }
 
     return render(request, 'news/create.html', data)
+
+
+class NewsCreateView(LoginRequiredMixin, CreateView):
+    model = Artiles
+    form_class = ArtilesForm
+    template_name = 'news/create.html'
+    success_url = '/news/'
