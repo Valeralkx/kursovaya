@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Профиль{% endblock %}
+
+{% block content %}
+<div class="features">
+    <h1>Профиль пользователя {{ user.username }}</h1>
+    
+    {% if user.avatar %}
+        <img src="{{ user.avatar.url }}" alt="Аватар" width="150">
+    {% endif %}
+    
+    <p>Email: {{ user.email }}</p>
+    <p>Телефон: {{ user.phone|default:"Не указан" }}</p>
+    <p>О себе: {{ user.bio|default:"Не указано" }}</p>
+    
+    <a href="{% url 'user:profile_edit' %}" class="btn btn-info">Редактировать профиль</a>
+    <a href="{% url 'user:logout' %}" class="btn btn-danger">Выйти</a>
+</div>
+{% endblock %}

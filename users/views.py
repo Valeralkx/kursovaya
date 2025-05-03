@@ -1,58 +1,47 @@
 from django.shortcuts import render, redirect
-from django.contrib import auth, messages
-from django.urls import reverse
-from django.http import HttpResponseRedirect
-from .forms import UserLoginForm, UserRegistrationForm, ProfileForm
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.db.models import Prefetch
+from django.views.generic import UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
+from .forms import UserRegisterForm, UserLoginForm
+from .models import User
 
+def register(request):
+    if request.method == 'POST':
+        form = UserRegisterForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('home')
+    else:
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form})
 
-def login(request):
+def user_login(request):
     if request.method == 'POST':
         form = UserLoginForm(data=request.POST)
         if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
-            user = auth.authenticate(username=username,
-                                      password=password)
-            if user:
-                auth.login(request, user)
-                return HttpResponseRedirect(reverse('main:home'))
+            user = form.get_user()
+            login(request, user)
+            return redirect('home')
     else:
         form = UserLoginForm()
     return render(request, 'users/login.html', {'form': form})
 
-
-def registration(request):
-    if request.method == 'POST':
-        form = UserRegistrationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            auth.login(request, user)  # Автоматический вход после регистрации
-            messages.success(request, f'{user.username}, вы успешно зарегистрированы!')
-            return redirect('main:home')  # Перенаправляем на главную
-    else:
-        form = UserRegistrationForm()
-    
-    context = {'form': form}
-    return render(request, 'users/registration.html', context)
-
+def user_logout(request):
+    logout(request)
+    return redirect('login')
 
 @login_required
 def profile(request):
-    if request.method == 'POST':
-        form = ProfileForm(data=request.POST, instance=request.user,
-                           files=request.FILES)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile was changed')
-            return HttpResponseRedirect(reverse('user:profile'))
-    else:
-        form = ProfileForm(instance=request.user)
-    return render(request, 'users/profile.html',
-                  {'form': form})
+    return render(request, 'users/profile.html')
 
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = User
+    fields = ['username', 'email', 'avatar', 'bio', 'phone']
+    template_name = 'users/profile_edit.html'
+    success_url = reverse_lazy('profile')
 
-def logout(request):
-    auth.logout(request)
-    return redirect(reverse('main:home'))
+    def get_object(self, queryset=None):
+        return self.request.user
