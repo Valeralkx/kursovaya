@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}Про нас{% endblock  %}
 
@@ -15,6 +16,7 @@
             <li>🚀 <strong>Позитив</strong> - мы прилагаем все усилия, чтобы вы были довольны</li>
         </ul>
     </div>
+    <img src="{% static 'main/img/кот.PNG' %}" alt="" class="about-image">
     <div class="contacts">
         <h2>Свяжитесь с нами</h2>
         <p>📧 Email: <a href="mailto:info@lennews.ru">info@lennews.ru</a></p>
@@ -23,7 +25,8 @@
             <a href="#"><i class="fab fa-telegram"></i></a>
         </div>
     </div>
+
     <div class="cta">
-        <a href="{% url 'news_home' %}" class="btn btn-warning">Читать новости</a>
+        <a href="{% url 'news_home' %}" class="btn btn-info">Читать новости</a>
     </div>
 {% endblock content %}
