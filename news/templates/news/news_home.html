@@ -5,6 +5,15 @@
 {% block content %}
     <div class="features">
         <h1>Новости на сайте</h1>
+
+        <div class="categories mb-4">
+            <a href="{% url 'news_home' %}" class="btn btn-outline-primary">Все</a>
+            <a href="?category=animals" class="btn btn-outline-primary">Животные</a>
+            <a href="?category=people" class="btn btn-outline-primary">Люди</a>
+            <a href="?category=food" class="btn btn-outline-primary">Еда</a>
+            <a href="?category=other" class="btn btn-outline-primary">Другое</a>
+        </div>
+
         {% if news %}
             {% for ne in news %}
                 <div class="alert alert-warning">
@@ -17,11 +26,11 @@
             <p>Записей пока нет :3</p>
         {% endif %}
 
-        <!-- Добавьте проверку авторизации -->
         {% if user.is_authenticated %}
             <a href="{% url 'create' %}" class="btn btn-info">+ Добавить запись</a>
         {% else %}
             <p>Чтобы добавить запись, <a href="{% url 'user:login' %}">войдите</a> или <a href="{% url 'user:register' %}">зарегистрируйтесь</a>.</p>
         {% endif %}
     </div>
+    
 {% endblock %}

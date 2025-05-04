@@ -3,7 +3,7 @@
 {% block title %}Форма по добавлению статьи{% endblock  %}
 
 {% block content %}
-    <div class="features">
+    <div class="featuress">
         <h1>Добавление статьи</h1>
         <form method="post">
             {% csrf_token %}
@@ -11,6 +11,7 @@
             {{ form.anons }}<br>
             {{ form.full_text }}<br>
             {{ form.date }}<br>
+            {{ form.category }}<br>
             <span>{{ error }}</span>
             <button class="btn btn-success" type="submit">Сохранить</button>
         </form>

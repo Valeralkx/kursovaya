@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block title %}{{ title }}{% endblock  %}
 
@@ -9,4 +10,29 @@
         <a href="{% url 'news_home' %}" class="btn btn-info">Читать новости</a>
         <a href="{% url 'user:register' %}" class="btn btn-info">Присоединиться</a>
     </div> 
+    <div class="poll-widget">
+        <h4>Опрос недели</h4>
+        <p>Как часто вы читаете новости?</p>
+        <form>
+            <label><input type="radio" name="poll"> Ежедневно</label><br>
+            <label><input type="radio" name="poll"> 2-3 раза в неделю</label><br>
+            <button type="submit">Голосовать</button>
+        </form>
+        <p>О чем или о ком вам интересней читать?</p>
+        <form>
+            <label><input type="radio" name="poll"> О людях</label><br>
+            <label><input type="radio" name="poll"> О животных</label><br>
+            <label><input type="radio" name="poll"> О еде</label><br>
+            <label><input type="radio" name="poll"> о всех</label><br>
+            <button type="submit">Голосовать</button>
+        </form>
+        <p>Наш сайт LenNews поднимает вам настроение?</p>
+        <form>
+            <label><input type="radio" name="poll"> Конечно, всегда!</label><br>
+            <label><input type="radio" name="poll"> Иногда</label><br>
+            <label><input type="radio" name="poll"> Нет</label><br>
+            <button type="submit">Голосовать</button>
+        </form>
+
+        <img src="{% static 'main/img/кот22.PNG' %}" alt="" class="index-image">
 {% endblock content %}

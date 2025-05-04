@@ -5,9 +5,32 @@
 {% block content %}
     <div class="features">
         <h1>{{ article.title }}</h1>
+        <p><strong>Категория:</strong> {{ article.get_category_display }}</p>
         <p>{{ article.date }}</p>
         <p>{{ article.full_text }}</p>
         <a href="{% url "news-delete" article.id %}" class="btn btn-danger">Удалить</a>
         <a href="{% url "news-update" article.id %}" class="btn btn-info">Редактировать</a>
     </div> 
+    <div class="comments mt-4">
+        <h3>Комментарии ({{ comments.count }})</h3>
+        {% for comment in comments %}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <strong>{{ comment.author.username }}</strong>
+                    <p>{{ comment.text }}</p>
+                    <small class="text-muted">{{ comment.created_at }}</small>
+                </div>
+            </div>
+        {% endfor %}
+    
+        {% if user.is_authenticated %}
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary">Отправить</button>
+            </form>
+        {% else %}
+            <p>Чтобы оставить комментарий, <a href="{% url 'user:login' %}">войдите</a>.</p>
+        {% endif %}
+    </div>
 {% endblock content %}
